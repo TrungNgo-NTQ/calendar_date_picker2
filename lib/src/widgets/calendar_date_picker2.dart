@@ -1011,9 +1011,12 @@ class _DayPickerState extends State<_DayPicker> {
         dayItems.add(Container());
       } else {
         final DateTime dayToBuild = DateTime(year, month, day);
-        final bool isDisabled = dayToBuild.isAfter(widget.config.lastDate) ||
+        var isDisabled = dayToBuild.isAfter(widget.config.lastDate) ||
             dayToBuild.isBefore(widget.config.firstDate) ||
             !(widget.config.selectableDayPredicate?.call(dayToBuild) ?? true);
+        if (dayToBuild.weekday == 6 || dayToBuild.weekday == 7) {
+          isDisabled = true;
+        }
         final bool isSelectedDay =
             widget.selectedDates.any((d) => DateUtils.isSameDay(d, dayToBuild));
 
